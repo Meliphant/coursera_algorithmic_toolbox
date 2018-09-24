@@ -1,0 +1,29 @@
+import java.util.*
+import kotlin.collections.ArrayList
+
+private fun largestNumber(digitsArray: ArrayList<Short>): String {
+    var result = ""
+    while (digitsArray.size > 0){
+        var largestNumber = 0
+        digitsArray.forEach {
+            largestNumber = isGreaterOrEqual(it, largestNumber)
+        }
+        result += largestNumber.toString()
+        digitsArray.remove(largestNumber.toShort())
+    }
+    return result
+}
+
+private fun isGreaterOrEqual(it: Short, largestNumber: Int) =
+        if (it.toString() + largestNumber.toString() > largestNumber.toString() + it.toString()) it.toInt()
+        else largestNumber
+
+fun main(args: Array<String>) {
+    val scanner = Scanner(System.`in`)
+    val n = scanner.nextByte()
+    val digitsArray = ArrayList<Short>()
+    for (it in 0 until n){
+        digitsArray.add(scanner.nextShort())
+    }
+    println(largestNumber(digitsArray))
+}

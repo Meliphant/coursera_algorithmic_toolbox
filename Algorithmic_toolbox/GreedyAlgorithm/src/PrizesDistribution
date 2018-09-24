@@ -1,0 +1,39 @@
+import java.util.*
+
+private fun prizesDistribution(n: Int){
+    var sum = 0
+    val sumComponents = Stack<Int>()
+    val prizesDistribution = Stack<Int>()
+    var k = 0
+
+    while (sum <= n){
+        k++
+        sum += k
+        sumComponents.push(k)
+    }
+
+    sumComponents.pop()
+    var delta = n - sum + k
+
+    while (sumComponents.isNotEmpty()){
+        if (delta > 0) prizesDistribution.push(sumComponents.pop() + 1)
+        else prizesDistribution.push(sumComponents.pop())
+        delta --
+    }
+
+    print(--k, prizesDistribution)
+}
+
+private fun print(k: Int, prizesDistribution: Stack<Int>){
+    println(k)
+    while (prizesDistribution.isNotEmpty()){
+        print(prizesDistribution.pop())
+        print(" ")
+    }
+}
+
+fun main(args: Array<String>) {
+    val scanner = Scanner(System.`in`)
+    val n = scanner.nextInt()
+    prizesDistribution(n)
+}
