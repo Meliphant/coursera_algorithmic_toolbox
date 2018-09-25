@@ -1,0 +1,49 @@
+import java.util.*
+
+private fun countIntersections(segments: List<Pair<Int, Int>>) {
+
+    val segments = sortSegmentsAsc(segments).toMutableList()
+    var intersectionQuantity = 0
+    val intersectionCoordinates = mutableListOf<Int>()
+
+    while (segments.size > 0) {
+        var coordinate = segments[0].second
+        internalLoop@ while (segments.size > 1) {
+            when {
+                coordinate in segments[1].first..segments[1].second -> segments.removeAt(1)
+                coordinate > segments[1].second -> {
+                    coordinate = segments[1].second
+                    segments.removeAt(1)
+                }
+                else -> break@internalLoop
+            }
+        }
+        intersectionQuantity++
+        intersectionCoordinates.add(coordinate)
+        segments.removeAt(0)
+    }
+    println(intersectionQuantity)
+    intersectionCoordinates.forEach {
+        print("$it ")
+    }
+}
+
+private fun sortSegmentsAsc(list: List<Pair<Int, Int>>): List<Pair<Int, Int>> {
+    return list.sortedWith(compareBy({ it.first }, { it.second }))
+}
+
+fun main(args: Array<String>) {
+    val scanner = Scanner(System.`in`)
+    val n = scanner.nextByte()
+
+    val segments = mutableListOf<Pair<Int, Int>>()
+    var left: Int
+    var right: Int
+
+    for (it in 0 until 2 * n step 2) {
+        left = scanner.nextInt()
+        right = scanner.nextInt()
+        segments.add(left to right)
+    }
+    countIntersections(segments)
+}
